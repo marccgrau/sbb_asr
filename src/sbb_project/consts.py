@@ -17,3 +17,8 @@ MANIFEST_DIR = DATA_DIR.joinpath('manifests')
 ## Module related directories 
 MODULE_DIR = PROJ_DIR.joinpath('src/sbb_project')
 MODEL_DIR = MODULE_DIR.joinpath('models')
+
+# TRAINING SETUP
+EXPERIMENT_PROJECT = "SBB_ASR"
+MANIFEST_FILE = '{}_samples_2022_11_29.json'
+TOKENIZER_DIR = DATA_DIR.joinpath('tokenizers')

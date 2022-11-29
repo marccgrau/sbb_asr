@@ -1,10 +1,10 @@
 
 name: "stt_de_citrinet_1024"
 #### ADDED MANUALLY
-source_config: "CH-Meteo_CH-SPC"
-target_config: "CH-SDS"
+source_config: "DE"
+target_config: "SBB"
 tokenizer_name: "tokenizer_spe_bpe_v1024"
-own_pretrain_path: "training/models/fine-tuned_citrinet_DE_CH_all_NOTEST_90.nemo"
+own_pretrain_path: None
 #### END ADDED MANUALLY
 
 model:
@@ -440,7 +440,7 @@ model:
       last_epoch: -1
 
 trainer:
-  devices: [0,3] # number of gpus
+  devices: [0] # number of gpus
   max_epochs: 100
   max_steps: null # computed at runtime if not set
   num_nodes: 1
