@@ -3,7 +3,7 @@ name: "stt_de_citrinet_1024"
 #### ADDED MANUALLY
 source_config: "DE"
 target_config: "SBB"
-tokenizer_name: "tokenizer_spe_bpe_v1024"
+tokenizer_name: "tokenizer_spe_bpe_v128"
 own_pretrain_path: None
 #### END ADDED MANUALLY
 
@@ -440,7 +440,7 @@ model:
       last_epoch: -1
 
 trainer:
-  devices: [0] # number of gpus
+  devices: [0,1] # number of gpus
   max_epochs: 100
   max_steps: null # computed at runtime if not set
   num_nodes: 1
