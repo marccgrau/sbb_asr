@@ -22,9 +22,9 @@ def main(cfg):
 
     target_voice_dir = consts.SBB_DATA_EXCHANGE_AUDIO
 
-    train_manifest = consts.MANIFEST_FILE.format("train")
-    val_manifest = consts.MANIFEST_FILE.format("val")
-    test_manifest = consts.MANIFEST_FILE.format("test")
+    train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("train"))
+    val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("val"))
+    test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("test"))
     
     tokenizer_dir = consts.TOKENIZER_DIR.joinpath(tokenizer_name)
     
