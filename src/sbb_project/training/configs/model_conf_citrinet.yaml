@@ -434,13 +434,13 @@ model:
       name: CosineAnnealing
 
       # scheduler config override
-      warmup_steps: 10000
+      warmup_steps: 300
       warmup_ratio: null
       min_lr: 1e-5
       last_epoch: -1
 
 trainer:
-  devices: [0,1] # number of gpus
+  devices: -1 # number of gpus
   max_epochs: 100
   max_steps: -1 # computed at runtime if not set
   num_nodes: 1
