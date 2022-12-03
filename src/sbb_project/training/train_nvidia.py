@@ -18,16 +18,17 @@ def main(cfg):
     # define directories & names
     source_config = cfg.source_config
     target_config = cfg.target_config
-    tokenizer_name = cfg.tokenizer_name
+    
+    if 'tokenizer' in cfg.model:
+        tokenizer_name = cfg.tokenizer_name
+        tokenizer_dir = consts.TOKENIZER_DIR.joinpath(tokenizer_name)
 
     target_voice_dir = consts.SBB_DATA_EXCHANGE_AUDIO
 
     train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("train"))
     val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("val"))
     test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("test"))
-    
-    tokenizer_dir = consts.TOKENIZER_DIR.joinpath(tokenizer_name)
-    
+      
     # set experiment name
     experiment_name = f"{cfg.name}-{source_config}-TO-{target_config}-{DATE}"
 
@@ -83,7 +84,7 @@ def main(cfg):
             trainer.test(asr_model)
 
     # save model
-    model_save_path = MODEL_DIR.joinpath(
+    model_save_path = consts.MODEL_DIR.joinpath(
         f"{experiment_name}.nemo"
     )
     asr_model.save_to(f"{model_save_path}")
