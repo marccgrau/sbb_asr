@@ -29,11 +29,11 @@ def train_test_val_split(all_lines: list):
 
 def write_manifest(manifest: Path, files: list):
     with open(manifest, 'w') as fout:
-    for file in files:
-        metadata = convert_sbb_json_to_nvidia(file)
-        if metadata['duration'] == 0:
-            print('skipped empty audio')
-            continue
-        json.dump(metadata, fout)
-        fout.write('\n')
+        for file in files:
+            metadata = convert_sbb_json_to_nvidia(file)
+            if metadata['duration'] == 0:
+                print('skipped empty audio')
+                continue
+            json.dump(metadata, fout)
+            fout.write('\n')
     return print("Manifest successfully created.")
