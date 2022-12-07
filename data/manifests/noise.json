@@ -1,0 +1,4 @@
+{"audio_filepath": "/home/user/code/sbb_asr/data/noise/zugabfahrt.wav", "duration": 43.84, "label": "noise", "text": "_", "offset": 0.0}
+{"audio_filepath": "/home/user/code/sbb_asr/data/noise/zugstand.wav", "duration": 10.7, "label": "noise", "text": "_", "offset": 0.0}
+{"audio_filepath": "/home/user/code/sbb_asr/data/noise/durchsage.wav", "duration": 17.86, "label": "noise", "text": "_", "offset": 0.0}
+{"audio_filepath": "/home/user/code/sbb_asr/data/noise/zugeinfahrt.wav", "duration": 33.64, "label": "noise", "text": "_", "offset": 0.0}
