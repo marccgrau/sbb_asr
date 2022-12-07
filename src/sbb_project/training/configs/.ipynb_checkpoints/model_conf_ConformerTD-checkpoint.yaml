@@ -176,7 +176,7 @@ model:
 
   optim:
     name: adamw
-    lr: 0.1
+    lr: 0.01
     # optimizer arguments
     betas: [0.9, 0.98]
     weight_decay: 1e-3
@@ -186,7 +186,7 @@ model:
       name: NoamAnnealing
       d_model: ${model.encoder.d_model}
       # scheduler config override
-      warmup_steps: 1000000
+      warmup_steps: 1000
       warmup_ratio: null
       min_lr: 1e-6
 
@@ -201,8 +201,8 @@ trainer:
   accumulate_grad_batches: 1
   gradient_clip_val: 0.0
   precision: 32 # Should be set to 16 for O1 and O2 to enable the AMP.
-  log_every_n_steps: 10000  # Interval of logging.
-  progress_bar_refresh_rate: 100
+  log_every_n_steps: 200  # Interval of logging.
+  enable_progress_bar: True
   resume_from_checkpoint: null # The path to a checkpoint file to continue the training, restores the whole state including the epoch, step, LR schedulers, apex, etc.
   num_sanity_val_steps: 0 # number of steps to perform validation steps for sanity check the validation process before starting the training, setting to 0 disables it
   check_val_every_n_epoch: 10 # number of evaluations on validation every n epochs

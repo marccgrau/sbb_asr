@@ -34,7 +34,7 @@ model:
   validation_ds:
     manifest_filepath: ???
     sample_rate: ${model.sample_rate}
-    batch_size: 16
+    batch_size: 8
     shuffle: false
     labels: []
     num_workers: 4
@@ -43,7 +43,7 @@ model:
   test_ds:
     manifest_filepath: null
     sample_rate: ${model.sample_rate}
-    batch_size: 16
+    batch_size: 8
     shuffle: false
     labels: []
     num_workers: 4
@@ -221,7 +221,7 @@ model:
   optim:
     name: adam
     # _target_: nemo.core.optim.optimizers.Adam
-    lr: .01
+    lr: .1
 
     # optimizer arguments
     betas: [0.9, 0.999]
