@@ -3,6 +3,8 @@ import json
 import soundfile as sf
 from nemo.collections.asr.parts.preprocessing import perturb, segment
 
+from sbb_project import consts
+
 def load_audio(filepath, sr) -> segment.AudioSegment:
     sample_segment = segment.AudioSegment.from_file(filepath, target_sr=sr)
     return sample_segment
