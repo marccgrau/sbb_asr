@@ -65,7 +65,21 @@ def write_noise_manifest(noise_files, manifest_file, duration_max=None, duration
     print("Finished preparing manifest !")
     
 
-def create_noise_samples(audio_files, snr_path, snr_annex, perturbation, sr):
+def create_noise_samples(audio_files, noise_manifest, snr, sr):
+    
+    if snr == 'random':
+        perturbation = perturb.NoisePerturbation(manifest_path = str(noise_manifest),
+                                                    min_snr_db = -10,
+                                                    max_snr_db = 40,
+                                                    max_gain_db = 300)
+    else:
+        perturbation = perturb.NoisePerturbation(manifest_path = str(noise_manifest),
+                                                        min_snr_db = snr,
+                                                        max_snr_db = snr,
+                                                        max_gain_db = 300)
+    snr_annex = 'snr_{}_'.format(snr)
+    snr_path = consts.SBB_DATA_EXCHANGE_DIR.joinpath('snr_{}_samples'.format(snr))
+    
     for file in audio_files:
         new_filepath = snr_annex + file.split('/')[-1].split('.')[0] + '.wav'
         temp_audio = load_audio(file, sr = sr)
