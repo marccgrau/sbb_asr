@@ -52,10 +52,7 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
     
     with open(train_manifest, 'w') as fout:
         for file in files:
-            if snr is None:
-                metadata = convert_sbb_json_to_nvidia(file, snr = None)
-            else:
-                metadata = convert_sbb_json_to_nvidia(file, snr = snr)
+            metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
                 continue
@@ -65,10 +62,7 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
     
     with open(test_manifest, 'w') as fout:
         for file in files:
-            if snr is None:
-                metadata = convert_sbb_json_to_nvidia(file, snr = None)
-            else:
-                metadata = convert_sbb_json_to_nvidia(file, snr = snr)
+            metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
                 continue
@@ -78,10 +72,7 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
     
     with open(val_manifest, 'w') as fout:
         for file in files:
-            if snr is None:
-                metadata = convert_sbb_json_to_nvidia(file, snr = None)
-            else:
-                metadata = convert_sbb_json_to_nvidia(file, snr = snr)
+            metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
                 continue
