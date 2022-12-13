@@ -36,8 +36,21 @@ def train_test_val_split(all_lines: list):
     test, val = model_selection.train_test_split(not_train, test_size=0.5, random_state=42)
     return train, test, val
 
-def write_manifest(manifest: Path, files: list, snr = None):
-    with open(manifest, 'w') as fout:
+def write_manifest(train_files: list, test_files: list, val_files: list, snr = None):
+    if snr is None:
+        train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('train', 'none'))
+        test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('test', 'none'))
+        val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', 'none'))
+    elif snr == -10:
+        train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('train', 'neg10'))
+        test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('test', 'neg10'))
+        val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', 'neg10'))
+    else:
+        train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('train', snr))
+        test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('test', snr))
+        val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', snr))
+    
+    with open(train_manifest, 'w') as fout:
         for file in files:
             if snr is None:
                 metadata = convert_sbb_json_to_nvidia(file, snr = None)
@@ -48,4 +61,31 @@ def write_manifest(manifest: Path, files: list, snr = None):
                 continue
             json.dump(metadata, fout)
             fout.write('\n')
-    return print("Manifest successfully created.")
+    print("Train manifest successfully created.")
+    
+    with open(test_manifest, 'w') as fout:
+        for file in files:
+            if snr is None:
+                metadata = convert_sbb_json_to_nvidia(file, snr = None)
+            else:
+                metadata = convert_sbb_json_to_nvidia(file, snr = snr)
+            if metadata['duration'] == 0:
+                print('skipped empty audio')
+                continue
+            json.dump(metadata, fout)
+            fout.write('\n')
+    print("Test manifest successfully created.")
+    
+    with open(val_manifest, 'w') as fout:
+        for file in files:
+            if snr is None:
+                metadata = convert_sbb_json_to_nvidia(file, snr = None)
+            else:
+                metadata = convert_sbb_json_to_nvidia(file, snr = snr)
+            if metadata['duration'] == 0:
+                print('skipped empty audio')
+                continue
+            json.dump(metadata, fout)
+            fout.write('\n')
+    print("Val manifest successfully created.")
+    return("All manifests successfully created."

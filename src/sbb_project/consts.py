@@ -24,7 +24,7 @@ MODEL_DIR = MODULE_DIR.joinpath('models')
 
 # TRAINING SETUP
 EXPERIMENT_PROJECT = "SBB_ASR"
-MANIFEST_FILE = '{}_samples.json'
+MANIFEST_FILE = '{}_samples_snr_{}.json'
 NOISE_MANIFEST_FILE = 'noise.json'
 TOKENIZER_DIR = DATA_DIR.joinpath('tokenizers')
 
