@@ -27,3 +27,6 @@ EXPERIMENT_PROJECT = "SBB_ASR"
 MANIFEST_FILE = '{}_samples.json'
 NOISE_MANIFEST_FILE = 'noise.json'
 TOKENIZER_DIR = DATA_DIR.joinpath('tokenizers')
+
+# Inference Eval
+INFERENCE_DIR = DATA_DIR.joinpath('inference_eval')

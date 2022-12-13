@@ -8,6 +8,7 @@ import datetime
 from pathlib import Path
 import torch
 from sbb_project import consts
+import copy
 
 DATE = datetime.date.today()
 
@@ -22,7 +23,7 @@ def main(cfg):
     if 'tokenizer' in cfg.model:
         tokenizer_name = cfg.tokenizer_name
         tokenizer_dir = consts.TOKENIZER_DIR.joinpath(tokenizer_name)
-
+    
     target_voice_dir = consts.SBB_DATA_EXCHANGE_AUDIO
 
     train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format("train"))
@@ -39,7 +40,7 @@ def main(cfg):
     
     if 'tokenizer' in cfg.model:
         cfg.model.tokenizer.dir = f"{tokenizer_dir}"
-    
+        
     cfg.exp_manager.exp_dir = f"experiments/"
     cfg.exp_manager.name = experiment_name
     cfg.exp_manager.create_wandb_logger = True
@@ -51,9 +52,9 @@ def main(cfg):
             cfg.name, map_location=torch.device("cuda")
         )
     logging.info(f'Model loaded')
-    # change tokenizer
-    if "quartznet" not in cfg.name:
-        asr_model.change_vocabulary(new_tokenizer_dir=f"{tokenizer_dir}/", new_tokenizer_type="bpe")
+    
+    default_cfg = copy.deepcopy(asr_model.cfg)
+    
     # instantiate trainer
     trainer = pl.Trainer(**cfg.trainer)
     logging.info(f'Trainer instantiated')
@@ -62,6 +63,8 @@ def main(cfg):
     logging.info(f'Experience Manager instantiated')
     # set hydra config as model config
     asr_model.cfg = cfg
+    asr_model.cfg.model.tokenizer.dir = default_cfg.tokenizer.dir
+    asr_model.cfg.model.tokenizer.type = default_cfg.tokenizer.type
     # set trainer for model from config trainer
     asr_model.set_trainer(trainer)
     logging.info(f'Trainer set')
@@ -88,7 +91,7 @@ def main(cfg):
 
     # save model
     model_save_path = consts.MODEL_DIR.joinpath(
-        f"{experiment_name}.nemo"
+        f"{experiment_name}-default-tokenizer.nemo"
     )
     asr_model.save_to(f"{model_save_path}")
     logging.info(f"Saved trained model to '{model_save_path}")
