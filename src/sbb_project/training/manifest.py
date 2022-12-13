@@ -103,10 +103,10 @@ def hf_datapush(snr):
                             'test': str(test_manifest),
                             'val': str(val_manifest)
                         })
-    data.rename_column('audio_filepath', 'audio')
-    data.rename_column('text', 'sentence')
-    data.cast_column('audio', Audio())
-    data.remove_columns('duration')
+    data = data.rename_column('audio_filepath', 'audio')
+    data = data.rename_column('text', 'sentence')
+    data = data.cast_column('audio', Audio())
+    data = data.remove_columns('duration')
     if snr is None:
         data.push_to_hub('marccgrau/sbbdata_snr_{}'.format('none'))
     elif snr == -10:
