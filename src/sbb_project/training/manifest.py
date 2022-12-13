@@ -51,7 +51,7 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
         val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', snr))
     
     with open(train_manifest, 'w') as fout:
-        for file in files:
+        for file in train_files:
             metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
@@ -61,7 +61,7 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
     print("Train manifest successfully created.")
     
     with open(test_manifest, 'w') as fout:
-        for file in files:
+        for file in test_files:
             metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
@@ -71,7 +71,7 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
     print("Test manifest successfully created.")
     
     with open(val_manifest, 'w') as fout:
-        for file in files:
+        for file in val_files:
             metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
