@@ -79,8 +79,12 @@ def create_noise_samples(audio_files, noise_manifest, snr, sr):
                                                         min_snr_db = snr,
                                                         max_snr_db = snr,
                                                         max_gain_db = 300)
-    snr_annex = 'snr_{}_'.format(snr)
-    snr_path = consts.SBB_DATA_EXCHANGE_DIR.joinpath('snr_{}_samples'.format(snr))
+    if snr == -10:
+        snr_annex = 'snr_neg10_'
+        snr_path = consts.SBB_DATA_EXCHANGE_DIR.joinpath('snr_neg10_samples')
+    else:
+        snr_annex = 'snr_{}_'.format(snr)
+        snr_path = consts.SBB_DATA_EXCHANGE_DIR.joinpath('snr_{}_samples'.format(snr))
     
     for file in audio_files:
         new_filepath = snr_annex + file.split('/')[-1].split('.')[0] + '.wav'
