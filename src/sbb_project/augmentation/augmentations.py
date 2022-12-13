@@ -1,6 +1,11 @@
 import librosa
 import json
+import soundfile as sf
+from nemo.collections.asr.parts.preprocessing import perturb, segment
 
+def load_audio(filepath, sr) -> segment.AudioSegment:
+    sample_segment = segment.AudioSegment.from_file(filepath, target_sr=sr)
+    return sample_segment
 
 def write_noise_manifest(noise_files, manifest_file, duration_max=None, duration_stride=10.0, filter_long=True, duration_limit=720.0):
     if duration_max is None:
@@ -58,3 +63,11 @@ def write_noise_manifest(noise_files, manifest_file, duration_max=None, duration
             print(f"Wrote {len(durations)} segments for filename {manifest_file}")
             
     print("Finished preparing manifest !")
+    
+
+def create_noise_samples(audio_files, snr_path, snr_annex, perturbation, sr):
+    for file in audio_files:
+        new_filepath = snr_annex + file.split('/')[-1].split('.')[0] + '.wav'
+        temp_audio = load_audio(file, sr = sr)
+        perturbation.perturb(temp_audio)
+        sf.write(snr_path.joinpath(new_filepath), temp_audio.samples, samplerate = sr)
