@@ -2,7 +2,7 @@ import librosa
 import json
 
 
-def write_noise_manifest(noise_files, manifest_file, duration_max=None, duration_stride=10.0, filter_long=True, duration_limit=60.0):
+def write_noise_manifest(noise_files, manifest_file, duration_max=None, duration_stride=10.0, filter_long=True, duration_limit=720.0):
     if duration_max is None:
         duration_max = 1e9
                 
