@@ -36,10 +36,13 @@ def train_test_val_split(all_lines: list):
     test, val = model_selection.train_test_split(not_train, test_size=0.5, random_state=42)
     return train, test, val
 
-def write_manifest(manifest: Path, files: list):
+def write_manifest(manifest: Path, files: list, snr = None):
     with open(manifest, 'w') as fout:
         for file in files:
-            metadata = convert_sbb_json_to_nvidia(file)
+            if snr is None:
+                metadata = convert_sbb_json_to_nvidia(file, snr = None)
+            else:
+                metadata = convert_sbb_json_to_nvidia(file, snr = snr)
             if metadata['duration'] == 0:
                 print('skipped empty audio')
                 continue
