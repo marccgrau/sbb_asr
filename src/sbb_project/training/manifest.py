@@ -79,4 +79,4 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
             json.dump(metadata, fout)
             fout.write('\n')
     print("Val manifest successfully created.")
-    return("All manifests successfully created."
+    return("All manifests successfully created.")
