@@ -5,6 +5,7 @@ from sklearn import model_selection
 #from sbb_project.training.train_config import get_train_config
 from sbb_project import consts
 import string
+from datasets import load_dataset, DatasetDict, Audio
 
 def convert_sbb_json_to_nvidia(file, snr = None):
     f = open(file)
@@ -80,3 +81,36 @@ def write_manifest(train_files: list, test_files: list, val_files: list, snr = N
             fout.write('\n')
     print("Val manifest successfully created.")
     return("All manifests successfully created.")
+
+def hf_datapush(snr):
+    data = DatasetDict()
+    if snr is None:
+        train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('train', 'none'))
+        test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('test', 'none'))
+        val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', 'none'))
+    elif snr == -10:
+        train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('train', 'neg10'))
+        test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('test', 'neg10'))
+        val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', 'neg10'))
+    else:
+        train_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('train', snr))
+        test_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('test', snr))
+        val_manifest = consts.MANIFEST_DIR.joinpath(consts.MANIFEST_FILE.format('val', snr))
+        
+    data = load_dataset('json',
+                        data_files = {
+                            'train': str(train_manifest),
+                            'test': str(test_manifest),
+                            'val': str(val_manifest)
+                        })
+    data.rename_column('audio_filepath', 'audio')
+    data.rename_column('text', 'sentence')
+    data.cast_column('audio', Audio())
+    data.remove_columns('duration')
+    if snr is None:
+        data.push_to_hub('marccgrau/sbbdata_snr_{}'.format('none'))
+    elif snr == -10:
+        data.push_to_hub('marccgrau/sbbdata_snr_{}'.format('neg10'))
+    else:
+        data.push_to_hub('marccgrau/sbbdata_snr_{}'.format(snr))
+    return print('Successful data push to huggingface.')
