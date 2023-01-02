@@ -7,10 +7,14 @@ PROJ_DIR = Path('/home/user/code/sbb_asr')
 ## Data related directories
 DATA_DIR = PROJ_DIR.joinpath('data')
 SBB_DATA_EXCHANGE_DIR = DATA_DIR.joinpath('sbb_exchange')
-# Set current batch sent as directory
+
+# Data exchange
 SBB_DATA_EXCHANGE_CURRENT_SAMPLE = SBB_DATA_EXCHANGE_DIR.joinpath('all_samples')
 SBB_DATA_EXCHANGE_AUDIO = SBB_DATA_EXCHANGE_CURRENT_SAMPLE.joinpath('audios')
 SBB_DATA_EXCHANGE_LABELS = SBB_DATA_EXCHANGE_CURRENT_SAMPLE.joinpath('labels')
+
+# Data illustration
+IMG_DIR = DATA_DIR.joinpath('data_illustrations')
 
 # Noise data
 NOISE_DIR = DATA_DIR.joinpath('noise')
